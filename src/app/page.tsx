@@ -1,3 +1,7 @@
+import { AiOutlineAudio } from "react-icons/ai";
+import { LuSend } from "react-icons/lu";
+import { MdOutlineAddPhotoAlternate } from "react-icons/md";
+
 const Select = () => {
   return <h1>Select Form</h1>;
 };
@@ -11,7 +15,27 @@ const UserList = () => {
 };
 
 const Chat = () => {
-  return <h1>Chat</h1>;
+  return (
+    <div className="">
+      <div className="w-full flex gap-2 items-center">
+        <div className="bg-white border border-black rounded-md py-2 px-3 flex gap-1 items-center w-[95%]">
+          <input
+            type="text"
+            className="w-[95%] outline-none focus:outline-none"
+          />
+          <button className="w-[2.5%]">
+            <MdOutlineAddPhotoAlternate />
+          </button>
+          <button className="w-[2.5%]">
+            <AiOutlineAudio />
+          </button>
+        </div>
+        <button className="w-[5%]">
+          <LuSend />
+        </button>
+      </div>
+    </div>
+  );
 };
 
 const ChatBox = () => {
@@ -19,12 +43,12 @@ const ChatBox = () => {
     <div className="max-w-[1000px] w-full mx-auto">
       <h1 className="text-xl font-semibold text-gray-700 my-10">Chat Box</h1>
       <div className="border border-black flex">
-        <div className="w-[20%]">
+        <div className="w-[25%]">
           <Search />
           <Select />
           <UserList />
         </div>
-        <div className="w-[80%]">
+        <div className="w-[75%] p-2 bg-gray-200">
           <Chat />
         </div>
       </div>
