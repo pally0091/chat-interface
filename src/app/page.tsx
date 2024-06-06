@@ -13,6 +13,7 @@ const UserList = () => {
 const Chat = () => {
   return <h1>Chat</h1>;
 };
+
 const ChatBox = () => {
   return (
     <div className="max-w-[1000px] w-full mx-auto">
