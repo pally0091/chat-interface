@@ -290,7 +290,8 @@ const Chat = () => {
     }
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (e: any) => {
+    e.preventDefault();
     // Logic to send message
     if (newMessage) {
       setMessages((prevMessages) => [
@@ -309,37 +310,51 @@ const Chat = () => {
   return (
     <div className="flex flex-col items-end justify-end h-full gap-4 py-2">
       <Messages />
-      <div className="w-full flex gap-2 items-center">
-        <div className="bg-white border border-black rounded-md py-2 px-3 flex gap-1 items-center w-[95%]">
-          <input
-            type="text"
-            onChange={(e) => setNewMessage(e.target.value)}
-            className="w-[94%] outline-none focus:outline-none"
-            placeholder="Type a message..."
-          />
-          <input
-            type="file"
-            onChange={handleFileChange}
-            className="hidden"
-            id="image-upload"
-          />
-          <label
-            htmlFor="image-upload"
-            className="cursor-pointer w-[3%]"
+      <form
+        onSubmit={handleSendMessage}
+        className="w-full"
+      >
+        <div className="w-full flex gap-2 items-center">
+          <div className="bg-white border border-black rounded-md py-2 px-3 flex gap-1 items-center w-[95%]">
+            <input
+              type="text"
+              onChange={(e) => setNewMessage(e.target.value)}
+              className="w-[94%] outline-none focus:outline-none"
+              placeholder="Type a message..."
+            />
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="hidden"
+              id="image-upload"
+            />
+            <label
+              htmlFor="image-upload"
+              className="cursor-pointer w-[3%]"
+            >
+              <MdOutlineAddPhotoAlternate />
+            </label>
+            <input
+              type="file"
+              // onChange={handleAudio}
+              className="hidden"
+              id="audio-upload"
+            />
+            <label
+              htmlFor="audio-upload"
+              className="cursor-pointer w-[3%]"
+            >
+              <AiOutlineAudio />
+            </label>
+          </div>
+          <button
+            className="w-[5%] flex justify-center items-center"
+            type="submit"
           >
-            <MdOutlineAddPhotoAlternate />
-          </label>
-          <button className="w-[3%]">
-            <AiOutlineAudio />
+            <LuSend className="text-xl" />
           </button>
         </div>
-        <button
-          className="w-[5%] flex justify-center items-center"
-          onClick={handleSendMessage}
-        >
-          <LuSend className="text-xl" />
-        </button>
-      </div>
+      </form>
     </div>
   );
 };
