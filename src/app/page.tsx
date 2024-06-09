@@ -16,7 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check } from "lucide-react";
 import {
   Command,
   CommandEmpty,
@@ -29,7 +29,6 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scrollarea";
 import { Separator } from "@/components/ui/separator";
-import { SlClose } from "react-icons/sl";
 
 const SelectBox = () => {
   return (
@@ -223,116 +222,124 @@ const Messages = () => {
     <div className="flex flex-col gap-4 w-full px-2">
       <ScrollArea>
         {messages.map((message) => (
-          <>
+          <div
+            key={message.id}
+            className={`flex w-full ${
+              message.sender === "Me" ? "justify-end" : "justify-start"
+            }`}
+          >
             <div
-              key={message.id}
-              className={`flex w-full ${
-                message.sender === "Me" ? "justify-end" : "justify-start"
+              className={`rounded-2xl px-3 py-2 ${
+                message.sender === "Me"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-black"
               }`}
             >
-              <div
-                className={`rounded-2xl px-3 py-2 ${
-                  message.sender === "Me"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-black"
-                }`}
-              >
-                <p>{message.text}</p>
-              </div>
+              <p>{message.text}</p>
             </div>
-          </>
+          </div>
         ))}
       </ScrollArea>
     </div>
   );
 };
 
-const ImageUpload = ({ closeModal }: { closeModal: () => void }) => {
+const Chat = () => {
   const [file, setFile] = useState<File | null>(null);
+  const [messages, setMessages] = useState([
+    {
+      id: 1,
+      text: "Hello, how are you?",
+      sender: "Me",
+    },
+    {
+      id: 2,
+      text: "I'm good, thanks. How about you?",
+      sender: "John Doe",
+    },
+    {
+      id: 3,
+      text: "I'm good too. What's up?",
+      sender: "Me",
+    },
+  ]);
+
+  const [newMessage, setNewMessage] = useState("");
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
+      if (file) {
+        // Upload file logic here
+        console.log("File uploaded successfully!");
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            id: prevMessages.length + 1,
+            text: `Image uploaded: ${file.name}`,
+            sender: "Me",
+          },
+        ]);
+        console.log("Message Sent", { messages });
+        setFile(null);
+        alert("Image Uploaded");
+        setFile(null);
+      } else {
+        alert("Please, Upload Image!");
+      }
     }
   };
-  const handleUpload = () => {
-    if (file) {
-      // Upload file logic here
-      console.log("File uploaded successfully!");
-      closeModal();
-      alert("Image Uploaded");
-    } else {
-      alert("Please, Upload Image!");
+
+  const handleSendMessage = () => {
+    // Logic to send message
+    if (newMessage) {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          id: prevMessages.length + 1,
+          text: newMessage,
+          sender: "Me",
+        },
+      ]);
     }
+    console.log("Message Sent", { messages });
+    setNewMessage("");
   };
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-lg w-full p-6">
-        <div className="flex justify-between items-center border-b pb-3">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Upload Image
-          </h3>
-          <button
-            className="text-gray-400 hover:text-gray-500"
-            onClick={closeModal}
-          >
-            <SlClose className="text-xl font-semibold" />
-          </button>
-        </div>
-        <div className="mt-4">
+    <div className="flex flex-col items-end justify-end h-full gap-4 py-2">
+      <Messages />
+      <div className="w-full flex gap-2 items-center">
+        <div className="bg-white border border-black rounded-md py-2 px-3 flex gap-1 items-center w-[95%]">
+          <input
+            type="text"
+            onChange={(e) => setNewMessage(e.target.value)}
+            className="w-[94%] outline-none focus:outline-none"
+            placeholder="Type a message..."
+          />
           <input
             type="file"
             onChange={handleFileChange}
-            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+            className="hidden"
+            id="image-upload"
           />
-        </div>
-        <div className="mt-4 flex justify-end">
-          <button
-            className="bg-gray-500 text-white font-bold py-2 px-4 rounded mr-2"
-            onClick={closeModal}
+          <label
+            htmlFor="image-upload"
+            className="cursor-pointer w-[3%]"
           >
-            Cancel
-          </button>
-          <button
-            className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
-            onClick={handleUpload}
-          >
-            Upload
+            <MdOutlineAddPhotoAlternate />
+          </label>
+          <button className="w-[3%]">
+            <AiOutlineAudio />
           </button>
         </div>
+        <button
+          className="w-[5%]"
+          onClick={handleSendMessage}
+        >
+          <LuSend />
+        </button>
       </div>
     </div>
-  );
-};
-
-const Chat = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <>
-      <div className="flex flex-col items-end justify-end h-full gap-4 py-2">
-        <Messages />
-        <div className="w-full flex gap-2 items-center">
-          <div className="bg-white border border-black rounded-md py-2 px-3 flex gap-1 items-center w-[95%]">
-            <input
-              type="text"
-              className="w-[95%] outline-none focus:outline-none"
-            />
-            <button
-              className="w-[2.5%]"
-              onClick={() => setIsOpen(true)}
-            >
-              <MdOutlineAddPhotoAlternate />
-            </button>
-            <button className="w-[2.5%]">
-              <AiOutlineAudio />
-            </button>
-          </div>
-          <button className="w-[5%]">
-            <LuSend />
-          </button>
-        </div>
-      </div>
-      {isOpen && <ImageUpload closeModal={() => setIsOpen(false)} />}
-    </>
   );
 };
 
