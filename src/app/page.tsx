@@ -177,25 +177,26 @@ const UserList = () => {
     },
   ];
   return (
-    <ScrollArea className=" h-[550px] rounded-md border">
-      <ul>
-        {users.map((user) => (
-          <>
-            <Link
-              key={user.id}
-              href="#"
-              className="m-0"
-            >
-              <li className="text-left px-2 py-1 ">
-                <b>{user.name}</b> <br />
-                {user.email}
-              </li>
-            </Link>
-            <Separator className="my-2" />
-          </>
-        ))}
-      </ul>
-    </ScrollArea>
+    <div className="pb-4 ">
+      <ScrollArea className="h-[500px] rounded-md border pe-2">
+        <ul className="">
+          {users.map((user) => (
+            <>
+              <Link
+                key={user.id}
+                href="#"
+                className="m-0 "
+              >
+                <li className="text-left px-2 py-1 bg-slate-200 mb-2">
+                  <b>{user.name}</b> <br />
+                  {user.email}
+                </li>
+              </Link>
+            </>
+          ))}
+        </ul>
+      </ScrollArea>
+    </div>
   );
 };
 
@@ -333,10 +334,10 @@ const Chat = () => {
           </button>
         </div>
         <button
-          className="w-[5%]"
+          className="w-[5%] flex justify-center items-center"
           onClick={handleSendMessage}
         >
-          <LuSend />
+          <LuSend className="text-xl" />
         </button>
       </div>
     </div>
