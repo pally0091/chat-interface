@@ -213,23 +213,38 @@ const UserList = () => {
 const Messages = ({ data }: { data: any }) => {
   return (
     <div className="flex flex-col gap-4 w-full px-2 mt-16">
-      <ScrollArea className="max-h-[500px] h-full">
+      <ScrollArea className="max-h-[500px] h-full pe-3">
         {data.map((message: any) => (
-          <div
-            key={message.id}
-            className={`flex w-full mb-2 ${
-              message.sender === "Me" ? "justify-end" : "justify-start"
-            }`}
-          >
+          <div key={message.id}>
             <div
-              className={`rounded-2xl px-3 py-2 ${
-                message.sender === "Me"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-black"
+              className={`flex w-full mb-2 ${
+                message.sender === "Me" ? "justify-end" : "justify-start"
               }`}
             >
-              <p>{message.text}</p>
+              <div
+                className={`rounded-2xl px-3 py-2 ${
+                  message.sender === "Me"
+                    ? "bg-blue-500 text-white text-right"
+                    : "bg-gray-200 text-black text-left"
+                }`}
+              >
+                <p
+                  className={`text-xs ${
+                    message.sender === "Me" ? "text-gray-200" : "text-gray-500"
+                  }`}
+                >
+                  {message.sender}
+                </p>
+                <p>{message.text}</p>
+              </div>
             </div>
+            <p
+              className={`text-xs text-gray-600 ${
+                message.sender === "Me" ? "text-right" : "text-left"
+              }`}
+            >
+              Time
+            </p>
           </div>
         ))}
       </ScrollArea>
