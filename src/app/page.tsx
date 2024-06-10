@@ -30,6 +30,86 @@ import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scrollarea";
 import { Separator } from "@/components/ui/separator";
 
+const users = [
+  {
+    id: 1,
+    name: "John Doe",
+    email: "john@example.com",
+    value: "kohndoe",
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    email: "jane@example.com",
+    value: "janedoe",
+  },
+  {
+    id: 3,
+    name: "Bob Smith",
+    email: "bob@example.com",
+    value: "bobsmith",
+  },
+  {
+    id: 4,
+    name: "Alice Johnson",
+    email: "alice@example.com",
+    value: "alicejohnson",
+  },
+  {
+    id: 5,
+    name: "Mike Brown",
+    email: "mike@example.com",
+    value: "mikebrown",
+  },
+  {
+    id: 6,
+    name: "Emily Davis",
+    email: "emily@example.com",
+    value: "emilydavis",
+  },
+  {
+    id: 7,
+    name: "Sarah Lee",
+    email: "sarah@example.com",
+    value: "sarahlee",
+  },
+  {
+    id: 8,
+    name: "Kevin White",
+    email: "kevin@example.com",
+    value: "kevinwhite",
+  },
+  {
+    id: 9,
+    name: "Lisa Nguyen",
+    email: "lisa@example.com",
+    value: "lisanguyen",
+  },
+  {
+    id: 10,
+    name: "David Kim",
+    email: "david@example.com",
+    value: "davidkim",
+  },
+];
+const messages = [
+  {
+    id: 1,
+    text: "Hello, how are you?",
+    sender: "Me",
+  },
+  {
+    id: 2,
+    text: "I'm good, thanks. How about you?",
+    sender: "John Doe",
+  },
+  {
+    id: 3,
+    text: "I'm good too. What's up?",
+    sender: "Me",
+  },
+];
+
 const SelectBox = () => {
   return (
     <div className="mx-auto w-[98%]">
@@ -50,28 +130,7 @@ const SelectBox = () => {
 const Search = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-  const frameworks = [
-    {
-      value: "next.js",
-      label: "Next.js",
-    },
-    {
-      value: "sveltekit",
-      label: "SvelteKit",
-    },
-    {
-      value: "nuxt.js",
-      label: "Nuxt.js",
-    },
-    {
-      value: "remix",
-      label: "Remix",
-    },
-    {
-      value: "astro",
-      label: "Astro",
-    },
-  ];
+
   return (
     <div className="mx-auto w-[98%]">
       <Popover
@@ -86,7 +145,7 @@ const Search = () => {
             className="w-full justify-between"
           >
             {value
-              ? frameworks.find((framework) => framework.value === value)?.label
+              ? users.find((user) => user.value === value)?.name
               : "Search ..."}
           </Button>
         </PopoverTrigger>
@@ -96,10 +155,10 @@ const Search = () => {
             <CommandList>
               <CommandEmpty>No framework found.</CommandEmpty>
               <CommandGroup>
-                {frameworks.map((framework) => (
+                {users.map((user) => (
                   <CommandItem
-                    key={framework.value}
-                    value={framework.value}
+                    key={user.value}
+                    value={user.value}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue);
                       setOpen(false);
@@ -108,10 +167,10 @@ const Search = () => {
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        value === framework.value ? "opacity-100" : "opacity-0"
+                        value === user.value ? "opacity-100" : "opacity-0"
                       )}
                     />
-                    {framework.label}
+                    {user.name}
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -124,62 +183,13 @@ const Search = () => {
 };
 
 const UserList = () => {
-  const users = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-    },
-    {
-      id: 2,
-      name: "Jane Doe",
-      email: "jane@example.com",
-    },
-    {
-      id: 3,
-      name: "Bob Smith",
-      email: "bob@example.com",
-    },
-    {
-      id: 4,
-      name: "Alice Johnson",
-      email: "alice@example.com",
-    },
-    {
-      id: 5,
-      name: "Mike Brown",
-      email: "mike@example.com",
-    },
-    {
-      id: 6,
-      name: "Emily Davis",
-      email: "emily@example.com",
-    },
-    {
-      id: 7,
-      name: "Sarah Lee",
-      email: "sarah@example.com",
-    },
-    {
-      id: 8,
-      name: "Kevin White",
-      email: "kevin@example.com",
-    },
-    {
-      id: 9,
-      name: "Lisa Nguyen",
-      email: "lisa@example.com",
-    },
-    {
-      id: 10,
-      name: "David Kim",
-      email: "david@example.com",
-    },
-  ];
   return (
     <div className="pb-4 ">
       <ScrollArea className="h-[500px] rounded-md border pe-2">
-        <ul className="">
+        <ul
+          className=""
+          suppressHydrationWarning
+        >
           {users.map((user) => (
             <>
               <Link
@@ -200,32 +210,14 @@ const UserList = () => {
   );
 };
 
-const Messages = () => {
-  const messages = [
-    {
-      id: 1,
-      text: "Hello, how are you?",
-      sender: "Me",
-    },
-    {
-      id: 2,
-      text: "I'm good, thanks. How about you?",
-      sender: "John Doe",
-    },
-    {
-      id: 3,
-      text: "I'm good too. What's up?",
-      sender: "Me",
-    },
-  ];
-
+const Messages = ({ data }: { data: any }) => {
   return (
     <div className="flex flex-col gap-4 w-full px-2">
       <ScrollArea>
-        {messages.map((message) => (
+        {data.map((message: any) => (
           <div
             key={message.id}
-            className={`flex w-full ${
+            className={`flex w-full mb-2 ${
               message.sender === "Me" ? "justify-end" : "justify-start"
             }`}
           >
@@ -309,7 +301,10 @@ const Chat = () => {
 
   return (
     <div className="flex flex-col items-end justify-end h-full gap-4 py-2">
-      <Messages />
+      <div className="chat-header">
+        <h4 className="text-lg font-semibold">User</h4>
+      </div>
+      <Messages data={messages} />
       <form
         onSubmit={handleSendMessage}
         className="w-full"
