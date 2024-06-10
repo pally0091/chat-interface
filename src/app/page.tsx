@@ -212,8 +212,8 @@ const UserList = () => {
 
 const Messages = ({ data }: { data: any }) => {
   return (
-    <div className="flex flex-col gap-4 w-full px-2">
-      <ScrollArea>
+    <div className="flex flex-col gap-4 w-full px-2 mt-16">
+      <ScrollArea className="max-h-[500px] h-full">
         {data.map((message: any) => (
           <div
             key={message.id}
@@ -301,7 +301,7 @@ const Chat = () => {
 
   return (
     <div className="flex flex-col items-end justify-end h-full gap-4 py-2 relative">
-      <div className="absolute w-full bg-white top-0 text-left p-2 shadow-lg shadow-slate-200 rounded-md">
+      <div className="absolute w-full bg-white top-0 text-left p-2 shadow-lg shadow-slate-200 rounded-md z-10">
         <h4 className="text-lg font-semibold">John Doe</h4>
         <p className="text-xs">Online</p>
       </div>
@@ -314,6 +314,7 @@ const Chat = () => {
           <div className="bg-white border border-black rounded-md py-2 px-3 flex gap-1 items-center w-[95%]">
             <input
               type="text"
+              value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               className="w-[94%] outline-none focus:outline-none"
               placeholder="Type a message..."
