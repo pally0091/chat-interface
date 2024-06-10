@@ -153,7 +153,7 @@ const Search = () => {
           <Command>
             <CommandInput placeholder="Search.." />
             <CommandList>
-              <CommandEmpty>No framework found.</CommandEmpty>
+              <CommandEmpty>No user found.</CommandEmpty>
               <CommandGroup>
                 {users.map((user) => (
                   <CommandItem
