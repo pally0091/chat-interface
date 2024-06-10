@@ -300,9 +300,10 @@ const Chat = () => {
   };
 
   return (
-    <div className="flex flex-col items-end justify-end h-full gap-4 py-2">
-      <div className="chat-header">
-        <h4 className="text-lg font-semibold">User</h4>
+    <div className="flex flex-col items-end justify-end h-full gap-4 py-2 relative">
+      <div className="absolute w-full bg-white top-0 text-left p-2 shadow-lg shadow-slate-200 rounded-md">
+        <h4 className="text-lg font-semibold">John Doe</h4>
+        <p className="text-xs">Online</p>
       </div>
       <Messages data={messages} />
       <form
