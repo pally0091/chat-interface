@@ -1,7 +1,9 @@
 "use client";
 import { AiOutlineAudio } from "react-icons/ai";
-import { LuSend } from "react-icons/lu";
+import { LuCircleDot, LuSend } from "react-icons/lu";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
+import TextareaAutosize from "react-textarea-autosize";
+
 import {
   Select,
   SelectContent,
@@ -28,87 +30,113 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scrollarea";
-import { Separator } from "@/components/ui/separator";
+import { GoDotFill } from "react-icons/go";
+import moment from "moment";
+import { timeStamp } from "console";
 
 const users = [
   {
     id: 1,
     name: "John Doe",
-    email: "john@example.com",
     value: "kohndoe",
+    position: "Manager",
+    lastMessage: "I Want to talk about my issue",
+    timeStamp: "2024-06-08T10:21:54.439+00:00",
   },
   {
     id: 2,
     name: "Jane Doe",
-    email: "jane@example.com",
     value: "janedoe",
+    position: "Developer",
+    lastMessage: "I Want to talk about my issue",
+    timeStamp: "2024-06-11T09:18:54.439+00:00",
   },
   {
     id: 3,
     name: "Bob Smith",
-    email: "bob@example.com",
     value: "bobsmith",
+    position: "Designer",
+    lastMessage: "I Want to talk about my issue",
+    timeStamp: "2024-06-11T01:21:54.439+00:00",
   },
   {
     id: 4,
     name: "Alice Johnson",
-    email: "alice@example.com",
     value: "alicejohnson",
+    position: "QA",
+    lastMessage: "I Want to talk about my issue",
+    timeStamp: "2024-06-10T10:21:54.439+00:00",
   },
   {
     id: 5,
     name: "Mike Brown",
-    email: "mike@example.com",
     value: "mikebrown",
+    position: "DevOps",
+    lastMessage: "I Want to talk about my issue",
+    timeStamp: "2024-06-11T10:21:54.439+00:00",
   },
   {
     id: 6,
     name: "Emily Davis",
-    email: "emily@example.com",
     value: "emilydavis",
+    position: "Manager",
+    lastMessage: "I Want to talk about my issue",
+    timeStamp: "2024-06-06T10:21:54.439+00:00",
   },
   {
     id: 7,
     name: "Sarah Lee",
-    email: "sarah@example.com",
     value: "sarahlee",
+    position: "Developer",
+    lastMessage: "I Want to talk about my issue",
+    timeStamp: "2024-06-10T10:21:54.439+00",
   },
   {
     id: 8,
     name: "Kevin White",
-    email: "kevin@example.com",
     value: "kevinwhite",
+    position: "Designer",
+    lastMessage: "I Want to talk about my issue",
+    timeStamp: "2024-06-10T10:21:54.439+00",
   },
   {
     id: 9,
     name: "Lisa Nguyen",
-    email: "lisa@example.com",
     value: "lisanguyen",
+    position: "QA",
+    lastMessage: "I Want to talk about my issue",
+    timeStamp: "2024-06-10T10:21:54.439+00",
   },
   {
     id: 10,
     name: "David Kim",
-    email: "david@example.com",
     value: "davidkim",
+    position: "DevOps",
+    lastMessage: "I Want to talk about my issue",
+    timeStamp: "2023-06-10T10:21:54.439+00",
   },
 ];
-const messages = [
-  {
-    id: 1,
-    text: "Hello, how are you?",
-    sender: "Me",
-  },
-  {
-    id: 2,
-    text: "I'm good, thanks. How about you?",
-    sender: "John Doe",
-  },
-  {
-    id: 3,
-    text: "I'm good too. What's up?",
-    sender: "Me",
-  },
-];
+
+const formatTimestamp = (timestamp: string) => {
+  const now = moment();
+  const time = moment(timestamp);
+  const diffInSeconds = now.diff(time, "seconds");
+  const diffInMinutes = now.diff(time, "minutes");
+  const diffInHours = now.diff(time, "hours");
+  const diffInDays = now.diff(time, "days");
+
+  if (diffInSeconds < 60) {
+    return "Just now";
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes} minute${diffInMinutes > 1 ? "s" : ""} ago`;
+  } else if (diffInHours < 24) {
+    return `${diffInHours} hour${diffInHours > 1 ? "s" : ""} ago`;
+  } else if (diffInDays < 7) {
+    return time.format("dddd");
+  } else {
+    return time.format("DD/MM/YYYY");
+  }
+};
 
 const SelectBox = () => {
   return (
@@ -190,20 +218,34 @@ const UserList = () => {
           className=""
           suppressHydrationWarning
         >
-          {users.map((user) => (
-            <>
-              <Link
-                key={user.id}
-                href="#"
-                className="m-0 "
-              >
-                <li className="text-left px-2 py-1 bg-slate-200 mb-2">
-                  <b>{user.name}</b> <br />
-                  {user.email}
-                </li>
-              </Link>
-            </>
-          ))}
+          {users.map((user) => {
+            return (
+              <>
+                <Link
+                  key={user.id}
+                  href="#"
+                  className="m-0 "
+                >
+                  <li className="text-left px-2 py-2 rounded-md bg-slate-200 mb-2 relative">
+                    <span className="absolute top-1 right-1 text-[7px]">
+                      ⚫
+                    </span>
+                    <p className=" flex gap-1 items-center text-sm">
+                      <b>{user.name}</b>{" "}
+                      <GoDotFill className="text-xs text-gray-500" />{" "}
+                      <span className="text-xs text-gray-500">
+                        {user.position}
+                      </span>
+                    </p>
+                    <p>{user.lastMessage.slice(0, 15)}...</p>
+                    <p className="text-left text-xs text-gray-500">
+                      {formatTimestamp(user.timeStamp)}
+                    </p>
+                  </li>
+                </Link>
+              </>
+            );
+          })}
         </ul>
       </ScrollArea>
     </div>
@@ -215,36 +257,45 @@ const Messages = ({ data }: { data: any }) => {
     <div className="flex flex-col gap-4 w-full px-2 mt-16">
       <ScrollArea className="max-h-[500px] h-full pe-3">
         {data.map((message: any) => (
-          <div key={message.id}>
+          <div
+            key={message.id}
+            className="mb-2"
+          >
             <div
-              className={`flex w-full mb-2 ${
-                message.sender === "Me" ? "justify-end" : "justify-start"
+              className={`flex w-full mb-1 ${
+                message.sender === "Jen" ? "justify-end" : "justify-start"
               }`}
             >
-              <div
-                className={`rounded-2xl px-3 py-2 ${
-                  message.sender === "Me"
-                    ? "bg-blue-500 text-white text-right"
-                    : "bg-gray-200 text-black text-left"
-                }`}
-              >
-                <p
-                  className={`text-xs ${
-                    message.sender === "Me" ? "text-gray-200" : "text-gray-500"
+              <div className="max-w-[300px]">
+                <div
+                  className={`rounded-2xl px-3 py-2  ${
+                    message.sender === "Jen"
+                      ? "bg-blue-500 text-white text-right"
+                      : "bg-gray-200 text-black text-left"
                   }`}
                 >
-                  {message.sender}
+                  <p
+                    className={`text-sm flex flex-col text-left  ${
+                      message.sender === "Jen"
+                        ? "text-gray-200"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    <span>{message.sender}</span>{" "}
+                    <span className="text-xs">{message.position}</span>
+                  </p>
+                  <p
+                    className="my-2"
+                    style={{ whiteSpace: "pre-line" }}
+                  >
+                    {message.text}
+                  </p>
+                </div>
+                <p className={`text-xs text-gray-600 text-right me-2 mt-1`}>
+                  {formatTimestamp(message.timeStamp)}
                 </p>
-                <p>{message.text}</p>
               </div>
             </div>
-            <p
-              className={`text-xs text-gray-600 ${
-                message.sender === "Me" ? "text-right" : "text-left"
-              }`}
-            >
-              Time
-            </p>
           </div>
         ))}
       </ScrollArea>
@@ -258,21 +309,28 @@ const Chat = () => {
     {
       id: 1,
       text: "Hello, how are you?",
-      sender: "Me",
+      sender: "Jen",
+      position: "Manager",
+      timeStamp: "2024-05-30T12:00:00.000Z",
     },
     {
       id: 2,
       text: "I'm good, thanks. How about you?",
       sender: "John Doe",
+      position: "Employee",
+      timeStamp: "2024-05-30T12:01:00.000Z",
     },
     {
       id: 3,
       text: "I'm good too. What's up?",
-      sender: "Me",
+      sender: "Jen",
+      position: "Manager",
+      timeStamp: "2024-06-01T12:02:00.000Z",
     },
   ]);
 
   const [newMessage, setNewMessage] = useState("");
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
@@ -284,7 +342,9 @@ const Chat = () => {
           {
             id: prevMessages.length + 1,
             text: `Image uploaded: ${file.name}`,
-            sender: "Me",
+            sender: "Jen",
+            position: "Manager",
+            timeStamp: new Date().toISOString(),
           },
         ]);
         console.log("Message Sent", { messages });
@@ -306,12 +366,25 @@ const Chat = () => {
         {
           id: prevMessages.length + 1,
           text: newMessage,
-          sender: "Me",
+          sender: "Jen",
+          position: "Manager",
+          timeStamp: new Date().toISOString(),
         },
       ]);
     }
     console.log("Message Sent", { messages });
     setNewMessage("");
+  };
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage(e);
+    }
+
+    if (e.key === "Enter" && e.shiftKey) {
+      e.preventDefault();
+      setNewMessage((prev) => prev + "\n");
+    }
   };
 
   return (
@@ -327,14 +400,14 @@ const Chat = () => {
       >
         <div className="w-full flex gap-2 items-center">
           <div className="bg-white border border-black rounded-md py-2 px-3 flex gap-1 items-center w-[95%]">
-            <input
-              type="text"
+            <TextareaAutosize
               value={newMessage}
+              onKeyDown={handleKeyPress}
               onChange={(e) => setNewMessage(e.target.value)}
-              className="w-[94%] outline-none focus:outline-none"
+              className="w-[94%] h-6 outline-none focus:outline-none resize-none overflow-hidden"
               placeholder="Type a message..."
             />
-            <input
+            {/* <input
               type="file"
               onChange={handleFileChange}
               className="hidden"
@@ -345,8 +418,8 @@ const Chat = () => {
               className="cursor-pointer w-[3%]"
             >
               <MdOutlineAddPhotoAlternate />
-            </label>
-            <input
+            </label> */}
+            {/* <input
               type="file"
               // onChange={handleAudio}
               className="hidden"
@@ -357,7 +430,7 @@ const Chat = () => {
               className="cursor-pointer w-[3%]"
             >
               <AiOutlineAudio />
-            </label>
+            </label> */}
           </div>
           <button
             className="w-[5%] flex justify-center items-center"
