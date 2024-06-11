@@ -266,7 +266,7 @@ const Messages = ({ data }: { data: any }) => {
                 message.sender === "Jen" ? "justify-end" : "justify-start"
               }`}
             >
-              <div className="max-w-[300px]">
+              <div className="max-w-[320px]">
                 <div
                   className={`rounded-2xl px-3 py-2  ${
                     message.sender === "Jen"
