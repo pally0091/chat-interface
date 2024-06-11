@@ -286,7 +286,7 @@ const Messages = ({ data }: { data: any }) => {
                   </p>
                   <p
                     className="my-2"
-                    style={{ whiteSpace: "pre-line" }}
+                    style={{ whiteSpace: "pre-line", width: "100%" }}
                   >
                     {message.text}
                   </p>
